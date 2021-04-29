@@ -1,0 +1,19 @@
+{
+  "name": "mysocnet",
+  "version": "1.0.0",
+  "description": "OTUS High Load Arcitect course project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kiselb/mysocnet.git"
+  },
+  "author": "Mikhail V. Kiselev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kiselb/mysocnet/issues"
+  },
+  "homepage": "https://github.com/Kiselb/mysocnet#readme"
+}
