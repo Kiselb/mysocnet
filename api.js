@@ -29,12 +29,14 @@ app.use('/login', login)
 
 // Test MySQL Connection
 
+const config = require('config');
+
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-    host: 'hla.group.legion.ru',
-    user: 'testuser',
-    password: 'MVK$73582',
-    database: 'TEST'
+    host: config.get('MySQL.host'),
+    user: config.get('MySQL.user'),
+    password: config.get('MySQL.password'),
+    database: config.get('MySQL.database')
 });
 
 connection.query('SELECT ID FROM TEST', function(error, results, fields) {
