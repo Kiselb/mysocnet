@@ -104,8 +104,7 @@ dist
 .tern-port
 
 # MS Access Databases
-.accdb
-.laccdb
+/msaccess
 
 # Config Files
 /config
