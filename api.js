@@ -27,6 +27,27 @@ app.use(['/courses', '/streams'], (req, res, next) => {
 
 app.use('/login', login)
 
+// Test MySQL Connection
+
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+    host: 'hla.group.legion.ru',
+    user: 'testuser',
+    password: 'MVK$73582',
+    database: 'TEST'
+});
+
+connection.query('SELECT ID FROM TEST', function(error, results, fields) {
+    if (error) {
+        console.log(`Error: ${error}`);
+    } else {
+        console.log(results);
+    }
+});
+
+connection.end();
+
+
 const API_PORT = 5100;   
 
 app.listen(API_PORT, () => console.log(`API Running on Port ${API_PORT}`))
