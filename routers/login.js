@@ -4,7 +4,8 @@ const auth = require('./auth')
 const router = express.Router()
 
 router.get('/', (req, res) => {
-    res.render('login', {})
+    console.log("Render Login ...")
+    res.render('public/login', {})
 })
 router.post('/', async (req, res) => {
     try {
@@ -20,6 +21,7 @@ router.post('/', async (req, res) => {
             }
         }
     } catch(err) {
+        console.log(err)
         res.sendStatus(401)
     }
 })

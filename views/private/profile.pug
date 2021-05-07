@@ -1,0 +1,37 @@
+extends ../public/index
+
+block panel
+    .profile
+        .profile-header
+            p Профиль
+        .profile-details
+            .block
+                label(for='#ProfileFirstName')
+                    | Имя:
+                input#ProfileFirstName(value=FirstName type='text')
+            .block
+                label(for='#ProfileLastName')
+                    | Фамилия:
+                input#ProfileLastName(value=LastName type='text')
+            .block
+                label(for='#BirthDate')
+                    | Дата рождения:
+                input#BirthDate(value=(new Date(BirthDate)).toISOString().split('T')[0] type='date')
+            .block
+                label(for='#Gender')
+                    | Пол:
+                input#Gender(value=Gender type='text')
+            .block
+                label(for='#City')
+                    | Город:
+                input#City(value=City type='text')
+            .block
+                label(for='#Country')
+                    | Страна:
+                input#Country(value=CountryName type='text')
+            .block
+                label
+                    | Интересы:
+                    textarea#Interests(readonly)
+                        | #{Interests}
+            

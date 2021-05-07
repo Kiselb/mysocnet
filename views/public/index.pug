@@ -3,15 +3,12 @@ extends layout
 block content
     .main
         .logo
-            a(href="/") Проект my-courses
+            a(href="/") My Socio.Net&trade;
         .menu
-            a#menuitem01(href='/public/courses').menu-item Курсы
-            a#menuitem02(href='/public/streams').menu-item Потоки
-            a#menuitem03(href='/courses' class='menu-item-toogle').menu-item Мои Курсы
-            a#menuitem04(href='/streams' class='menu-item-toogle').menu-item Мои Потоки
-            a#menuitem04(href='/education' class='menu-item-toogle').menu-item Моё обучение
-            a#menuitem05(href='/login').menu-item Войти
-            a#menuitem06(href='' onclick='mycourses.logout()' class='menu-item-toogle').menu-item Выйти
-            a#menuitem07(href='/chat' class='menu-item-toogle').menu-item Чат
-            a#user(href='' class='menu-item-toogle').menu-item
+            a#menuitem01(href='/public/registration' class='menu-item-toogle').menu-item Регистрация
+            a#user(href='/profile' class='menu-item-toogle').menu-item
+            a#menuitem02(href='/public/agreements').menu-item Соглашение
+            a#menuitem03(href='/public/about').menu-item О Проекте
+            a#menuitem04(href='/login').menu-item Войти
+            a#menuitem05(href='' onclick='mycourses.logout()' class='menu-item-toogle').menu-item Выйти
         block panel

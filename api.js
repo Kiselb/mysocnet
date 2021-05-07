@@ -30,25 +30,23 @@ app.use('/login', login)
 // Test MySQL Connection
 
 const config = require('config');
-
-const mysql = require('mysql');
-const connection = mysql.createConnection({
-    host: config.get('MySQL.host'),
-    user: config.get('MySQL.user'),
-    password: config.get('MySQL.password'),
-    database: config.get('MySQL.database')
-});
-
-connection.query('SELECT ID FROM TEST', function(error, results, fields) {
-    if (error) {
-        console.log(`Error: ${error}`);
-    } else {
-        console.log(results);
+const mysql = require('mysql2/promise');
+(async function() {
+    try {
+        const connection = await mysql.createConnection({
+            host: config.get('MySQL.host'),
+            user: config.get('MySQL.user'),
+            password: config.get('MySQL.password'),
+            database: config.get('MySQL.database')
+        });
+        
+        const [rows, fields] = await connection.query('SELECT ID FROM TEST WHERE ID = ?', [1]);
+        console.log(rows);
+        connection.end();    
+    } catch(exception) {
+        console.log(exception);
     }
-});
-
-connection.end();
-
+})();
 
 const API_PORT = 5100;   
 
