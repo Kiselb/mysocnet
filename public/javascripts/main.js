@@ -17,6 +17,10 @@ var mycourses = (function() {
             document.getElementById("menuitem05").classList.add('menu-item-toggle');
             document.getElementById("user").classList.add('menu-item-toggle');
         }
+        const messagesWindow = document.getElementById("messages");
+        if (!!messagesWindow) {
+            messagesWindow.scrollTop = messagesWindow.scrollHeight;
+        }
     }
     var login = function() {
         const name = document.getElementById('name').value;
@@ -65,10 +69,45 @@ var mycourses = (function() {
     var islogged = function() {
         return !!localStorage.getItem('mysocnet.user');
     }
+    var subscriptionSelect = function(id) {
+        const subscriptionCurrency = localStorage.getItem('mysocnet.subscription.currency');
+        if (!!subscriptionCurrency) {
+            document.getElementById(subscriptionCurrency).classList.remove('subscription-current');
+        }
+        document.getElementById("subscriptionid" + id).classList.add('subscription-current');
+        localStorage.setItem('mysocnet.subscription.currency', "subscriptionid" + id);
+    }
+    var sendMessage = function(controlId) {
+        const request = new XMLHttpRequest();
+        const message = document.getElementById(controlId).value;
+
+        request.open('POST', `${apiUri}/messages`);
+        request.setRequestHeader('content-type', 'application/json');
+        request.addEventListener("readystatechange", () => {
+            if (request.readyState === 4 && request.status === 200) {
+                window.location.href = `${appUri}`;
+                const messagesWindow = document.getElementById("messages");
+                messagesWindow.scrollTop = messagesWindow.scrollHeight;
+            }
+        });
+        request.send('{ "message": "' + message + '" }');
+    }
+    var sendComments = function(meesageId, controlId) {
+
+    }
     return {
         login: login,
         logout: logout,
         islogged: islogged,
         bodyOnLoad: bodyOnLoad,
+        subscription: {
+            currency: subscriptionSelect
+        },
+        messages: {
+            send: sendMessage
+        },
+        comments: {
+            send: sendComments
+        }
     };
 })();

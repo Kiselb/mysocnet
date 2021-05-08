@@ -1,4 +1,29 @@
 extends ../public/index
 
 block panel
-    p Сообщения
+    .workplate
+        .mymessagesselector
+            | Мои сообщения
+        .subsciptions
+            each subscription in subscriptions
+                .subscription(id="subscriptionid" + subscription.id, onclick="mycourses.subscription.currency(" + subscription.id + ")")
+                    span.subscription-mark
+                        - var mark = subscription.FirstName[0] + subscription.LastName[0]
+                        p #{mark}
+                    .subscription-header
+                        p #{subscription.FirstName} #{subscription.LastName} 
+                    .subscription-details 
+                        p #{subscription.City} #{subscription.CountryName}
+        .messages#messages
+            each message in messages
+                .message
+                    .message-header
+                        span
+                           | *
+                        | #{message.id} #{message.PublishDate}
+                    .message-details
+                        | #{message.Message}
+        .messageblock
+            textarea.messagetext#messagetext
+            span.messagesubmit(onclick="mycourses.messages.send('messagetext')")
+                p &ldsh;
