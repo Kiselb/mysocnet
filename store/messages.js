@@ -46,3 +46,16 @@ exports.addMessage = (userId, message) => {
         }
     });
 }
+exports.getComments = (messageId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const [rows, fields] = await (await connection).query("SELECT id, PublishDate, Comments AS Text, (SELECT CONCAT(FirstName, ' ', LastName) FROM Users WHERE id = C.AuthorID) AS AuthorName FROM Comments AS C WHERE C.MessageID = ?", [messageId]);
+            console.log(rows);
+            resolve(rows);
+        }
+        catch(exception) {
+            console.log(exception);
+            reject(exception);
+        }
+    });
+}

@@ -2,7 +2,7 @@ extends ../public/index
 
 block panel
     .workplate
-        .mymessagesselector
+        .mymessagesselector(onclick="mycourses.messages.my()")
             | Мои сообщения
         .subsciptions
             each subscription in subscriptions
@@ -17,12 +17,22 @@ block panel
         .messages#messages
             each message in messages
                 .message
-                    .message-header
+                    - var viewComments = (+message.id) === (+commentsMessageId)
+                    .message-header(onclick="mycourses.comments.view(" + message.id + ")")
                         span
                            | *
                         | #{message.id} #{message.PublishDate}
                     .message-details
                         | #{message.Message}
+                    if (viewComments)
+                        .comments
+                            each comment in comments
+                                .comments-block
+                                    .comments-header
+                                        p #{comment.PublishDate}
+                                        strong #{comment.AuthorName}
+                                    .comments-text 
+                                        P #{comment.Text}
         .messageblock
             textarea.messagetext#messagetext
             span.messagesubmit(onclick="mycourses.messages.send('messagetext')")

@@ -1,7 +1,7 @@
 var mycourses = (function() {
-    const env = 1;
-    const appUri = (!!env)? ('http://localhost:3000'):('https://kiselbcourses.herokuapp.com');
-    const apiUri = (!!env)? ('http://localhost:3000/API1.0'):('https://kiselbcourses.herokuapp.com/API1.0');
+    const env = 0;
+    const appUri = (!!env)? ('http://localhost:3000'):('https://hla.legion.ru');
+    const apiUri = (!!env)? ('http://localhost:3000/API1.0'):('https://hla.legion.ru/API1.0');
 
     var bodyOnLoad = function() {
         const displayName = document.getElementById('user');
@@ -20,6 +20,11 @@ var mycourses = (function() {
         const messagesWindow = document.getElementById("messages");
         if (!!messagesWindow) {
             messagesWindow.scrollTop = messagesWindow.scrollHeight;
+        }
+        const subscription = localStorage.getItem('mysocnet.subscription.currency');
+        if (!!subscription) {
+            const subcription_element = document.getElementById(subscription);
+            subcription_element.classList.add('subscription-current');
         }
     }
     var login = function() {
@@ -70,12 +75,17 @@ var mycourses = (function() {
         return !!localStorage.getItem('mysocnet.user');
     }
     var subscriptionSelect = function(id) {
-        const subscriptionCurrency = localStorage.getItem('mysocnet.subscription.currency');
+        const subscriptionCurrency = localStorage.getItem('mysocnet.subscription.currency') || "";
         if (!!subscriptionCurrency) {
             document.getElementById(subscriptionCurrency).classList.remove('subscription-current');
         }
         document.getElementById("subscriptionid" + id).classList.add('subscription-current');
         localStorage.setItem('mysocnet.subscription.currency', "subscriptionid" + id);
+        window.location.href = `${appUri}/${id}`;
+    }
+    var myMessages = function() {
+        localStorage.setItem('mysocnet.subscription.currency', "");
+        window.location.href = `${appUri}`;
     }
     var sendMessage = function(controlId) {
         const request = new XMLHttpRequest();
@@ -92,6 +102,18 @@ var mycourses = (function() {
         });
         request.send('{ "message": "' + message + '" }');
     }
+    var viewMessageComments = function(messageId) {
+        localStorage.setItem('mysocnet.comments.message', messageId);
+        const subscriptionCurrency = localStorage.getItem('mysocnet.subscription.currency') || "";
+        if (!!subscriptionCurrency) {
+            window.location.href = `${appUri}/${(subscriptionCurrency.replace("subscriptionid",""))}?commentsMessageId=${messageId}`;
+        } else {
+            window.location.href = `${appUri}?commentsMessageId=${messageId}`;
+        }
+    }
+    var viewMessageCommentsMessageId = function() {
+        return localStorage.getItem('mysocnet.comments.message');
+    }
     var sendComments = function(meesageId, controlId) {
 
     }
@@ -104,9 +126,12 @@ var mycourses = (function() {
             currency: subscriptionSelect
         },
         messages: {
+            my: myMessages,
             send: sendMessage
         },
         comments: {
+            view: viewMessageComments,
+            messageId: viewMessageCommentsMessageId,
             send: sendComments
         }
     };

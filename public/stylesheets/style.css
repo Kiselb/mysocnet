@@ -640,3 +640,30 @@ body {
     padding-top: 0.25em;
     padding-left: 0.55em;
 }
+.comments {
+    background: #FFF;
+    margin-left: 4em;
+    margin-top: 1em;
+}
+.comments-block {
+    display: grid;
+    grid-template-areas:
+        "commentsheader"
+        "commentstext";
+    grid-template-rows: auto 1fr;
+    grid-template-columns: auto;
+}
+.comments-header {
+    grid-area: commentsheader;
+    font-size: 0.75em;
+    color: #A0A0A0;
+    margin-bottom: 0.25em;
+}
+.comments-header > strong {
+    font-weight: bold !important;
+}
+.comments-text {
+    grid-area: commentstext;
+    padding-bottom: 1em;
+    font-size: 0.85em;
+}

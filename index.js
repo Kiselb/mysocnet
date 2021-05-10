@@ -52,24 +52,44 @@ app.use('/main', routersMain)
 app.use('/profile', routersProfile)
 app.use('/public', routersPublic)
 
-app.get('/', (req, res, next) => {
+function mainContent(req, res) {
     const userId = auth.verifyAll(req);
+    const paramId = req.params.id;
     const aggregate = {};
 
     if (!userId) return res.render('public/index', {});
+    
     messages.getSubscriptions(userId)
     .then(data => {
         aggregate.subscriptions = data;
+        if (!!paramId) {
+            return messages.getMessages(paramId);    
+        }
         return messages.getMessages(userId);
     })
     .then(data => {
         aggregate.messages = data;
+        if (!!req.query.commentsMessageId) {
+            aggregate.commentsMessageId = req.query.commentsMessageId;
+            return messages.getComments((+aggregate.commentsMessageId));
+        }
+        return [];
+    })
+    .then(data => {      
+        aggregate.comments = data;
         return res.render('../views/private/main', aggregate);
     })
     .catch(error => {
         console.log(error);
         return res.sendStatus(500);
     });
+}
+
+app.get('/', (req, res, next) => {
+    mainContent(req, res);
+})
+app.get('/:id', (req, res, next) => {
+    mainContent(req, res)
 })
 
 app.listen(APPLICATION_PORT, () => console.log(`Running on Port ${APPLICATION_PORT}`));
