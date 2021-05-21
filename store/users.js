@@ -1,7 +1,7 @@
 const config = require('config');
 const mysql = require('mysql2/promise');
 
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
     host: config.get('MySQL.host'),
     user: config.get('MySQL.user'),
     password: config.get('MySQL.password'),
@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
 exports.getUser = (email, password) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const [rows, fields] = await (await connection).query('SELECT id FROM Users WHERE email = ? AND Password = ?', [email, password]);
+            const [rows, fields] = await (await connection).query('SELECT id FROM Users WHERE email = ? AND CryptoPassword = SHA2(?, 0)', [email, password]);
             if (!rows[0]) {
                 reject("User does not exists");
             } else {
@@ -34,6 +34,43 @@ exports.getProfile = (userId) => {
             }
         }
         catch(exception) {
+            reject(exception);
+        }
+    });
+}
+exports.register = (params) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const [rows, fields] = await (await connection).execute('INSERT INTO Users (FirstName, LastName, email, Password, BirthDate, Interests, Gender, City) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [params.FirstName, params.LastName, params.EMail, params.Password, params.BirthDate, params.Interests, params.Gender, params.City]);
+            resolve();
+        }
+        catch(exception) {
+            console.log(exception);
+            reject(exception);
+        }
+    });
+}
+exports.getList = (criteria) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const pattern = '%' + criteria + '%';
+            const [rows, fields] = await (await connection).query('SELECT id, FirstName, LastName, email, City FROM Users AS U WHERE email LIKE ? ORDER BY FirstName, LastName LIMIT 50', pattern);
+            console.log(rows);
+            resolve(rows);
+        }
+        catch(exception) {
+            reject(exception);
+        }
+    });
+}
+exports.subscribe = (params) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const [rows, fields] = await (await connection).execute('INSERT INTO Subscriptions (UserID, AuthorID) VALUES (?, ?)', [params.userId, params.authorId]);
+            resolve();
+        }
+        catch(exception) {
+            console.log(exception);
             reject(exception);
         }
     });

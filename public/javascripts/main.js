@@ -26,6 +26,15 @@ var mycourses = (function() {
             const subcription_element = document.getElementById(subscription);
             subcription_element.classList.add('subscription-current');
         }
+        let id = undefined;
+        id = localStorage.getItem('mysocnet.subscription.add')
+        if (!!id) {
+            const dialog = document.getElementById('addsubscription');
+            dialog.classList.remove('dialog-hide');
+        } else {
+            const dialog = document.getElementById('addsubscription');
+            dialog.classList.add('dialog-hide');
+        }
     }
     var login = function() {
         const name = document.getElementById('name').value;
@@ -117,6 +126,74 @@ var mycourses = (function() {
     var sendComments = function(meesageId, controlId) {
 
     }
+    var userRegister = function() {
+        const password1 = document.getElementById("Password1").value.trim();
+        const password2 = document.getElementById("Password2").value.trim();
+
+        if (password1.length < 5) return;
+
+        if (password1 !== password2) {
+            console.log("Invalid password");
+            return;
+        }
+        const params = {
+            EMail: document.getElementById("EMail").value,
+            FirstName: document.getElementById("FirstName").value,
+            LastName: document.getElementById("LastName").value,
+            BirthDate: document.getElementById("BirthDate").value,
+            Gender: document.getElementById("Gender").value,
+            City: document.getElementById("City").value,
+            Country: document.getElementById("Country").value,
+            Interests: document.getElementById("Interests").value,
+            Password: password1
+        };
+
+        for(let value of Object.values(params)) {
+            if ((value || "").length === 0) return;
+        }
+
+        console.log(params);
+
+        const request = new XMLHttpRequest();
+
+        request.open('POST', `${apiUri}/register`);
+        request.setRequestHeader('content-type', 'application/json');
+        request.addEventListener("readystatechange", () => {
+            if (request.readyState === 4 && request.status === 200) {
+                window.location.href = `${appUri}/login`;
+            }
+        });
+        request.send(JSON.stringify(params));
+    }
+    var subscriptionAddDialog = function() {
+        localStorage.setItem('mysocnet.subscription.add', 'ADD');
+        const dialog = document.getElementById('addsubscription');
+        dialog.classList.remove('dialog-hide');
+    }
+    var subscriptionOKDialog = function(id) {
+        localStorage.removeItem('mysocnet.subscription.add');
+        const request = new XMLHttpRequest();
+
+        request.open('POST', `${apiUri}/profile/subscribe`);
+        request.setRequestHeader('content-type', 'application/json');
+        request.addEventListener("readystatechange", () => {
+            if (request.readyState === 4 && request.status === 200) {
+                window.location.href = `${appUri}`;
+            }
+        });
+        request.send(JSON.stringify({ authorId: id }));
+    }
+    var subscriptionCancelDialog = function() {
+        localStorage.removeItem('mysocnet.subscription.add');
+        const dialog = document.getElementById('addsubscription');
+        dialog.classList.add('dialog-hide');
+    }
+    var subscriptionsList = function() {
+        const criteria = document.getElementById("searchtext").value
+        if (criteria) {
+            window.location.href = `${appUri}?criteria=${criteria}`;
+        }
+    }
     return {
         login: login,
         logout: logout,
@@ -133,6 +210,15 @@ var mycourses = (function() {
             view: viewMessageComments,
             messageId: viewMessageCommentsMessageId,
             send: sendComments
+        },
+        users: {
+            register: userRegister
+        },
+        addSubscription: {
+            Dialog: subscriptionAddDialog,
+            OK: subscriptionOKDialog,
+            Cancel: subscriptionCancelDialog,
+            List: subscriptionsList
         }
     };
 })();

@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/registration', (req, res) => {
-    console.log("Render Agreements ...")
-    res.render('public/agreements', {})
+    console.log("Render Registration ...")
+    res.render('public/registration', {})
 })
 
 router.get('/agreements', (req, res) => {

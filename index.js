@@ -6,6 +6,7 @@ const cors = require('cors');
 const auth = require('./routers/auth')
 const config = require('config');
 const messages = require('./store/messages');
+const users = require('./store/users');
 
 const app = express();
 
@@ -28,6 +29,7 @@ const APPLICATION_PORT = config.get('Frontend.PORT');
 const routersAPILogin = require('./routers/API/login.js')
 const routersAPIMessages = require('./routers/API/messages.js')
 const routersAPIProfile = require('./routers/API/profile.js')
+const routersAPIRegister = require('./routers/API/register.js')
 
 const routersLogin = require('./routers/login.js')
 const routersLogout = require('./routers/logout.js')
@@ -45,6 +47,7 @@ app.use(['/API1.0/messages', '/API1.0/profile', '/main', '/profile'], (req, res,
 app.use('/API1.0/login', routersAPILogin)
 app.use('/API1.0/messages', routersAPIMessages)
 app.use('/API1.0/profile', routersAPIProfile)
+app.use('/API1.0/register', routersAPIRegister)
 
 app.use('/login', routersLogin)
 app.use('/logout', routersLogout)
@@ -77,6 +80,13 @@ function mainContent(req, res) {
     })
     .then(data => {      
         aggregate.comments = data;
+        if (req.query.criteria) {
+            return users.getList(req.query.criteria);
+        }
+        return [];
+    })
+    .then(data => {
+        aggregate.usersList = data;
         return res.render('../views/private/main', aggregate);
     })
     .catch(error => {

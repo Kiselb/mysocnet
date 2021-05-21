@@ -6,107 +6,18 @@ html
     script(src='/public/javascripts/main.js')
   body(onload="mycourses.bodyOnLoad()")
     block content
-    #add-course.dialog-course-add.dialog-hide()
-      div
-        .dialog-course-add-header Регистрация курса
-        textarea#dialog-course-add-name(placeholder="Укажите название курса")
-        textarea#dialog-course-add-description(placeholder="Укажите описание курса")
-        .dialog-course-add-actions
-          button(onclick='mycourses.courses.addCourse.OK()') OK
-          button(onclick='mycourses.courses.addCourse.Cancel()') Отмена
-    #change-course.dialog-course-add.dialog-hide()
-      div
-        .dialog-course-add-header Изменение курса
-        textarea#dialog-course-change-name(placeholder="Укажите название курса")
-        textarea#dialog-course-change-description(placeholder="Укажите описание курса")
-        .dialog-course-add-actions
-          button(onclick='mycourses.courses.changeCourse.OK()') OK
-          button(onclick='mycourses.courses.changeCourse.Cancel()') Отмена
-    #add-lesson-to-course.dialog-course-add-lesson.dialog-hide()
-      div
-        .dialog-course-add-lesson-header Регистрация лекции курса
-        textarea#dialog-course-add-lesson-theme(placeholder="Укажите тему лекции")
-        textarea#dialog-course-add-lesson-purpose(placeholder="Укажите цель лекции")
-        .dialog-course-add-lesson-position
-          p
-            label
-              input(name="addLesssonToCoursePositionType" type="radio" value="0")
-              | Первая
-          p
-            label
-              input(name="addLesssonToCoursePositionType" type="radio" value="-1")
-              | Последняя
-          p
-            label
-              input(name="addLesssonToCoursePositionType" type="radio" value="1")
-              | Произвольно
-              input#dialog-course-add-lesson-position-value(type="number" placeholder="№ п/п")
-        .dialog-course-add-lesson-actions
-          button(onclick='mycourses.courses.addLesson.OK()') OK
-          button(onclick='mycourses.courses.addLesson.Cancel()') Отмена
-    #add-lesson-to-stream.dialog-stream-add-lesson.dialog-hide()
-      div
-        .dialog-stream-add-lesson-header Регистрация лекции потока
-        textarea#dialog-stream-add-lesson-theme(placeholder="Укажите тему лекции")
-        textarea#dialog-stream-add-lesson-purpose(placeholder="Укажите цель лекции")
-        input#dialog-stream-add-lesson-date(type="date").dialog-stream-add-lesson-date
-        input#dialog-stream-add-lesson-time(type="time").dialog-stream-add-lesson-time
-        .dialog-stream-add-lesson-position
-          p
-            label
-              input(name="addLesssonToStreamPositionType" type="radio" value="0")
-              | Первая
-          p
-            label
-              input(name="addLesssonToStreamPositionType" type="radio" value="-1")
-              | Последняя
-          p
-            label
-              input(name="addLesssonToStreamPositionType" type="radio" value="1")
-              | Произвольно
-              input#dialog-stream-add-lesson-position-value(type="number" placeholder="№ п/п")
-        .dialog-stream-add-lesson-actions
-          button(onclick='mycourses.streams.addLesson.OK()') OK
-          button(onclick='mycourses.streams.addLesson.Cancel()') Отмена
-    #add-stream-to-course.dialog-course-add-stream.dialog-hide()
-      div
-        .dialog-course-add-stream-header Регистрация нового потока курса
-        p.dialog-course-add-stream-params
-          label.dialog-course-add-stream-date-label
-            | Начало потока:
-          input#dialog-course-add-stream-start(type="date").dialog-course-add-stream-date
-        p.dialog-course-add-stream-params
-          label.dialog-course-add-stream-date-label
-            | Окончание потока:
-          input#dialog-course-add-stream-finish(type="date").dialog-course-add-stream-date
-        .dialog-course-add-stream-actions
-          button(onclick='mycourses.courses.addStream.OK()') OK
-          button(onclick='mycourses.courses.addStream.Cancel()') Отмена
-    #change-stream.dialog-stream-change.dialog-hide()
-      div
-        .dialog-course-add-stream-header Изменение потока курса
-        p.dialog-stream-change-params
-          label.dialog-stream-change-date-label
-            | Начало потока:
-          input#dialog-stream-change-start(type="date").dialog-stream-change-date
-        p.dialog-stream-change-params
-          label.dialog-stream-change-date-label
-            | Окончание потока:
-          input#dialog-stream-change-finish(type="date").dialog-stream-change-date
-        .dialog-stream-change-actions
-          button(onclick='mycourses.streams.changeStream.OK()') OK
-          button(onclick='mycourses.streams.changeStream.Cancel()') Отмена
-    #change-stream-lesson.dialog-stream-change.dialog-hide()
-      div
-        .dialog-course-add-stream-header Изменение даты проведения лекции
-        p.dialog-stream-change-params
-          label.dialog-stream-change-date-label
-            | Дата лекции:
-          input#dialog-stream-change-lesson-date(type="date").dialog-stream-change-date
-        p.dialog-stream-change-params
-          label.dialog-stream-change-date-label
-            | Время лекции:
-          input#dialog-stream-change-lesson-time(type="time").dialog-stream-change-date
-        .dialog-stream-change-actions
-          button(onclick='mycourses.streams.changeLesson.OK()') OK
-          button(onclick='mycourses.streams.changeLesson.Cancel()') Отмена
+    #addsubscription.dialog-subscription-add.dialog-hide()
+      .dialog-subscription-add-header(onclick='mycourses.addSubscription.Cancel()') Подписка
+      input.dialog-subscription-add-searchtext#searchtext(placeholder="Поиск")
+      button.dialog-subscription-add-findbutton#searchbutton(onclick="mycourses.addSubscription.List()") Найти
+      .dialog-subscription-add-authors
+        each user in usersList
+          .subscription(id="adduserid" + user.id, onclick="")
+            span.subscription-mark(onclick="mycourses.addSubscription.OK(" + user.id + ")")
+                - var mark = (user.FirstName[0]).toUpperCase() + (user.LastName[0]).toUpperCase()
+                p #{mark}
+            .subscription-header
+                p #{user.email} #{user.FirstName} #{user.LastName} 
+            .subscription-details 
+                p #{user.City}
+

@@ -1,0 +1,59 @@
+extends ../public/index
+
+block panel
+    .profile
+        .profile-header
+            p Регистрация
+        .profile-details
+            .block
+                label(for='#EMail')
+                    | e-mail:
+                input#EMail(type='email')
+            .block
+                label(for='#ProfileFirstName')
+                    | Имя:
+                input#FirstName(type='text')
+            .block
+                label(for='#ProfileLastName')
+                    | Фамилия:
+                input#LastName(type='text')
+            .block
+                label(for='#BirthDate')
+                    | Дата рождения:
+                input#BirthDate(type='date')
+            .block
+                label(for='#Gender')
+                    | Пол:
+                select#Gender
+                    option(value="male")
+                        | male
+                    option(value="female")
+                        | female
+            .block
+                label(for='#City')
+                    | Город:
+                input#City(type='text')
+            .block
+                label(for='#Country')
+                    | Страна:
+                input#Country(type='text')
+            .block
+                label
+                    | Интересы:
+                    textarea#Interests
+                        | #TEST
+            .block
+                label(for='#Password1')
+                    | Пароль:
+                input#Password1(type='password' value="" autocomplete="new-password")
+            .block
+                label(for='#Password2')
+                    | Подтверждение:
+                input#Password2(type='password' autocomplete="new-password")
+            .block
+                label
+                    | &nbsp;
+                button#RegisterUser(onclick="mycourses.users.register()")
+                    | OK
+            
+            
