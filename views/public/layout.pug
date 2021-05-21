@@ -7,7 +7,9 @@ html
   body(onload="mycourses.bodyOnLoad()")
     block content
     #addsubscription.dialog-subscription-add.dialog-hide()
-      .dialog-subscription-add-header(onclick='mycourses.addSubscription.Cancel()') Подписка
+      .dialog-subscription-add-header Подписка
+      .dialog-subscription-add-header-close(onclick='mycourses.addSubscription.Cancel()')
+        |X
       input.dialog-subscription-add-searchtext#searchtext(placeholder="Поиск")
       button.dialog-subscription-add-findbutton#searchbutton(onclick="mycourses.addSubscription.List()") Найти
       .dialog-subscription-add-authors

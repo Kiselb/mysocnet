@@ -694,11 +694,11 @@ body {
     width: 55%;
     display: grid;
     grid-template-areas:
-        "header header"
-        "searchtext findbutton"
-        "authorslist authorslist";
+        "header header header close"
+        "searchtext searchtext findbutton findbutton"
+        "authorslist authorslist authorslist authorslist";
     grid-template-rows: auto auto 1fr;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
     background-color: #DFDFDF;
     border-width: 1px;
     border-color: darkgrey;
@@ -710,11 +710,24 @@ body {
     height: 1.75em;
     background-color: #7152D9;
     color: white;
-    font-family: 'Open Sans', sans-serif;
     font-size: 1.25em;
     text-align: center;
     vertical-align: middle;
     line-height: 1.75em;
+}
+.dialog-subscription-add-header-close  {
+    grid-area: close;
+    height: 1.75em;
+    background-color: #7152D9;
+    color: white;
+    font-size: 1.25em;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.75em;
+    padding-right: 0.5em;
+}
+.dialog-subscription-add-header-close:hover {
+    cursor: pointer;
 }
 .dialog-subscription-add-searchtext {
     grid-area: searchtext;
