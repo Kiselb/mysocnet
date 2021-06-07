@@ -86,6 +86,8 @@ function mainContent(req, res) {
         return [];
     })
     .then(data => {
+        console.log("Users List");
+        console.log(data);
         aggregate.usersList = data;
         return res.render('../views/private/main', aggregate);
     })

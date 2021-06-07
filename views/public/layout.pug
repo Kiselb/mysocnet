@@ -13,7 +13,7 @@ html
       input.dialog-subscription-add-searchtext#searchtext(placeholder="Поиск")
       button.dialog-subscription-add-findbutton#searchbutton(onclick="mycourses.addSubscription.List()") Найти
       .dialog-subscription-add-authors
-        each user in usersList
+        each user in (usersList || [])
           .subscription(id="adduserid" + user.id, onclick="")
             span.subscription-mark(onclick="mycourses.addSubscription.OK(" + user.id + ")")
                 - var mark = (user.FirstName[0]).toUpperCase() + (user.LastName[0]).toUpperCase()

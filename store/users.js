@@ -41,7 +41,7 @@ exports.getProfile = (userId) => {
 exports.register = (params) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const [rows, fields] = await (await connection).execute('INSERT INTO Users (FirstName, LastName, email, Password, BirthDate, Interests, Gender, City) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [params.FirstName, params.LastName, params.EMail, params.Password, params.BirthDate, params.Interests, params.Gender, params.City]);
+            const [rows, fields] = await (await connection).execute('INSERT INTO Users (FirstName, LastName, email, CryptoPassword, BirthDate, Interests, Gender, City) VALUES (?, ?, ?, SHA2(?, 0), ?, ?, ?, ?)', [params.FirstName, params.LastName, params.EMail, params.Password, params.BirthDate, params.Interests, params.Gender, params.City]);
             resolve();
         }
         catch(exception) {
