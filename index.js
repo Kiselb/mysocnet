@@ -30,6 +30,7 @@ const routersAPILogin = require('./routers/API/login.js')
 const routersAPIMessages = require('./routers/API/messages.js')
 const routersAPIProfile = require('./routers/API/profile.js')
 const routersAPIRegister = require('./routers/API/register.js')
+const routersAPIUsers = require('./routers/API/users.js')
 
 const routersLogin = require('./routers/login.js')
 const routersLogout = require('./routers/logout.js')
@@ -37,7 +38,7 @@ const routersMain = require('./routers/main.js')
 const routersProfile = require('./routers/profile.js')
 const routersPublic = require('./routers/public.js')
 
-app.use(['/API1.0/messages', '/API1.0/profile', '/main', '/profile'], (req, res, next) => {
+app.use(['/API1.0/users', '/API1.0/messages', '/API1.0/profile', '/main', '/profile'], (req, res, next) => {
     let userId = auth.verifyAll(req);
     if (!userId) return res.sendStatus(401);
     req.userId = userId;
@@ -48,6 +49,7 @@ app.use('/API1.0/login', routersAPILogin)
 app.use('/API1.0/messages', routersAPIMessages)
 app.use('/API1.0/profile', routersAPIProfile)
 app.use('/API1.0/register', routersAPIRegister)
+app.use('/API1.0/users', routersAPIUsers)
 
 app.use('/login', routersLogin)
 app.use('/logout', routersLogout)
@@ -98,9 +100,11 @@ function mainContent(req, res) {
 }
 
 app.get('/', (req, res, next) => {
+    console.log('/');
     mainContent(req, res);
 })
 app.get('/:id', (req, res, next) => {
+    console.log('/:id');
     mainContent(req, res)
 })
 

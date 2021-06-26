@@ -63,6 +63,20 @@ exports.getList = (criteria) => {
         }
     });
 }
+exports.getListByNames = (firstNamePattern, lastNamePattern) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const pattern1 = '%' + firstNamePattern + '%';
+            const pattern2 = '%' + lastNamePattern + '%';
+            const [rows, fields] = await (await connection).query('SELECT id, FirstName, LastName, email, City FROM Users AS U WHERE (FirstName LIKE ?) AND (LastName LIKE ?) ORDER BY id', [pattern1, pattern2]);
+            console.log(rows);
+            resolve(rows);
+        }
+        catch(exception) {
+            reject(exception);
+        }
+    });
+}
 exports.subscribe = (params) => {
     return new Promise(async (resolve, reject) => {
         try {
