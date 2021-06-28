@@ -38,8 +38,9 @@ const routersMain = require('./routers/main.js')
 const routersProfile = require('./routers/profile.js')
 const routersPublic = require('./routers/public.js')
 
-app.use(['/API1.0/users', '/API1.0/messages', '/API1.0/profile', '/main', '/profile'], (req, res, next) => {
-    let userId = auth.verifyAll(req);
+//app.use(['/API1.0/users', '/API1.0/messages', '/API1.0/profile', '/main', '/profile'], (req, res, next) => {
+app.use(['/API1.0/messages', '/API1.0/profile', '/main', '/profile'], (req, res, next) => {
+        let userId = auth.verifyAll(req);
     if (!userId) return res.sendStatus(401);
     req.userId = userId;
     next();

@@ -3,5 +3,11 @@ Cookie: mysocnettoken=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjE1MjMxN
 
 ###
 
-GET http://localhost:3000/API1.0/users?FirstName=a&LastName=b HTTP/1.1
+GET https://hla.legion.ru/API1.0/users?FirstName=Donaugh&LastName=Borres HTTP/1.1
+
+####
+
+GET http://hla.legion.ru/API1.0/users?FirstName=Donaugh&LastName=Borres HTTP/1.1
 Cookie: mysocnettoken=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjE1MjMxNDcsImV4cCI6MjEwMTUyMzE0Nywic3ViIjoiMTMzNTA0In0.r5S3AUQfbPOhDC2iZBI2bsWX156ycUOxGmCZjAJuBTUldlQWbT69Wl8JEo7DSkE_JCxiN7hzgfPzOS7IdW_O8ZNaHKfZownQXXbfusH-TORF5ZpVV1t3LVyMKW8IMZW1DKnyrcReVbyHkVw8dIEnDTfeZDh8oYE_CNio4AbeFs0
+
+###

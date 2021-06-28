@@ -68,7 +68,8 @@ exports.getListByNames = (firstNamePattern, lastNamePattern) => {
         try {
             const pattern1 = '%' + firstNamePattern + '%';
             const pattern2 = '%' + lastNamePattern + '%';
-            const [rows, fields] = await (await connection).query('SELECT id, FirstName, LastName, email, City FROM Users AS U WHERE (FirstName LIKE ?) AND (LastName LIKE ?) ORDER BY id', [pattern1, pattern2]);
+            //const [rows, fields] = await (await connection).query('SELECT id, FirstName, LastName, email, City FROM Users AS U WHERE (LastName LIKE ?) AND (FirstName LIKE ?) ORDER BY id', [pattern2, pattern1]);
+            const [rows, fields] = await (await connection).query('SELECT id, FirstName, LastName, email, City FROM Users AS U WHERE (LastName LIKE ?) AND (FirstName LIKE ?) ORDER BY id', [lastNamePattern, firstNamePattern]);
             console.log(rows);
             resolve(rows);
         }
