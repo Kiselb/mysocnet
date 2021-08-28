@@ -1,4 +1,5 @@
 const express = require('express');
+const cluster = require('cluster')
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -7,6 +8,25 @@ const auth = require('./routers/auth')
 const config = require('config');
 const messages = require('./store/messages');
 const users = require('./store/users');
+
+const APPLICATION_PORT = config.get('Frontend.PORT');
+
+// if (cluster.isMaster) {
+//     let cpus = os.cpus().length;
+  
+//     for (let i = 0; i < cpus; i++) cluster.fork();
+  
+//     cluster.on('exit', (worker, code) => {
+//         console.log(
+//             `Worker ${worker.id} finished. Exit code: ${code}`
+//         );
+  
+//         app.listen(APPLICATION_PORT, () =>
+//             console.log(`Worker ${cluster.worker.id} launched`)
+//         );
+//     });
+//     return;
+// }
 
 const app = express();
 
@@ -20,11 +40,13 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 app.use((req, res, next) => {
-    console.log(`URL: ${req.originalUrl} Method: ${req.method}`);
+    let cluster_worker_id = 0
+    if (cluster.isWorker) {
+        cluster_worker_id = cluster.worker.id
+    }
+    console.log(`URL: ${req.originalUrl} Method: ${req.method} Worker: ${cluster_worker_id}`);
     next();
 })
-
-const APPLICATION_PORT = config.get('Frontend.PORT');
 
 const routersAPILogin = require('./routers/API/login.js')
 const routersAPIMessages = require('./routers/API/messages.js')
@@ -39,7 +61,8 @@ const routersProfile = require('./routers/profile.js')
 const routersPublic = require('./routers/public.js')
 
 //app.use(['/API1.0/users', '/API1.0/messages', '/API1.0/profile', '/main', '/profile'], (req, res, next) => {
-app.use(['/API1.0/messages', '/API1.0/profile', '/main', '/profile'], (req, res, next) => {
+//app.use(['/API1.0/messages', '/API1.0/profile', '/main', '/profile'], (req, res, next) => {
+app.use(['/API1.0/profile', '/main', '/profile'], (req, res, next) => {
         let userId = auth.verifyAll(req);
     if (!userId) return res.sendStatus(401);
     req.userId = userId;
@@ -77,6 +100,7 @@ function mainContent(req, res) {
         aggregate.messages = data;
         if (!!req.query.commentsMessageId) {
             aggregate.commentsMessageId = req.query.commentsMessageId;
+            console.log(`Comments for Message ID=${aggregate.commentsMessageId}`);
             return messages.getComments((+aggregate.commentsMessageId));
         }
         return [];
